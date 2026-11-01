@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>창영하드메탈 관리자 포털</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#ffffff">
+<style>
+  body { margin: 0; min-height: 100dvh; display: grid; place-items: center; background: #fff; color: #37352f; font: 16px/1.6 system-ui, sans-serif; }
+  main { width: min(360px, calc(100% - 32px)); text-align: center; }
+  img { width: 100%; height: auto; }
+  a, button { display: block; width: 100%; margin-top: 12px; padding: 14px; border: 0; border-radius: 10px; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+  a { background: #37352f; color: #fff; }
+  button { background: #ffedd5; color: #37352f; }
+  p { color: #6f6d66; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <img src="logo.png" alt="(주)창영하드메탈" width="830" height="225">
+  <a id="open" href="https://script.google.com/macros/s/AKfycbwKCbKp-hpP7zfrzdM45-Glxx7T8YmePVG9DRDp4uFrZqiI_DTG_IY6lgI5Z6vGnOJ6/exec">포털 열기</a>
+  <button id="install" hidden>앱으로 설치</button>
+  <p id="help">휴대폰: 크롬 ⋮ → <b>앱 설치</b> (또는 홈 화면에 추가)<br>PC: 주소창 오른쪽 설치 아이콘</p>
+</main>
+<script>
+  const portal = document.getElementById('open').href;
+  // 설치한 앱으로 열면 바로 포털로
+  if (new URLSearchParams(location.search).has('app') || matchMedia('(display-mode: standalone)').matches) location.replace(portal);
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+  let prompt;
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); prompt = e; document.getElementById('install').hidden = false; });
+  document.getElementById('install').onclick = () => prompt && prompt.prompt();
+</script>
+</body>
+</html>
